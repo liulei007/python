@@ -64,14 +64,14 @@ class addDrive(object):
         rs = call(["xfs_growfs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
     def main():
         x = addDrive(opts.drive, opts.vgfolder, opts.lvfolder)
-            x.check_disk()
-            x.fdisk()
-            x.partprobe()
-            x.pvcreate()
-            time.sleep(5)
-            x.extend_vg()
-            x.extend_lv()
-            x.resizefs()
+        x.check_disk()
+        x.fdisk()
+        x.partprobe()
+        x.pvcreate()
+        time.sleep(5)
+        x.extend_vg()
+        x.extend_lv()
+        x.resizefs()
 if __name__ == "__main__":
 
        print "Usage: python 1_fdisk.py -d sdb -v cl -l root, which means -d : disk, -v : volume, -l : logical volume"

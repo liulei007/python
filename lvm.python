@@ -29,7 +29,7 @@ class addDrive(object):
         output= ps.communicate()[0].split(", \n")
         if self.drive in str(output):
             print "Disk has been added to lvm, please double check disk partitions table %s" % output
-            break
+            exit(-1)
             flags = False
         else:
             flags = True

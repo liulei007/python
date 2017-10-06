@@ -22,9 +22,10 @@ class addDrive(object):
         #self.folder = str(folder)
         self.vgfolder = str(vgfolder)
         self.lvfolder = str(lvfolder)
-    
+
+ 
     def fdisk(self):
-        #if self.drive = 
+        #if self.drive =
 	#before_format_cmd = 'echo -e "n\np\n1\n\nt\\n8e\nw"'
         #devnull = open(os.devnull, 'w')
 	before_format_cmd = 'echo -e "n\np\n1\n\n\nt\n8e\\nw\n"'
@@ -36,7 +37,7 @@ class addDrive(object):
         if p2 != 0:
            print 'disk not valid /dev/%s' %self.drive
         else:
-           print 'formated disk /dev/%s' %self.drive 
+           print 'formated disk /dev/%s' %self.drive
 
     def partprobe(self):
         pprobe = "partprobe"
@@ -79,6 +80,6 @@ def main():
     x.extend_lv()
     x.resizefs()
 if __name__ == "__main__":
-     
+
     print "Usage: python 1_fdisk.py -d sdb -v cl -l root, which means -d : disk, -v : volume, -l : logical volume"
     main()

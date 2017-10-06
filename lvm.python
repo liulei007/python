@@ -22,8 +22,21 @@ class addDrive(object):
         self.vgfolder = str(vgfolder)
         self.lvfolder = str(lvfolder)
 
-
+    def check_disk(self):
+        flags=False
+        cmd = "cat /proc/partitions | awk '{print $4}'"
+        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output= ps.communicate()[0].split(", \n")
+        if self.drive in str(output):
+            print "Disk has been added to lvm, please double check disk partitions table %s" output
+            break
+            flags = False
+        else:
+            flags = True
+            print "Starting jobs"
     def fdisk(self):
+        #check = false
+
 	    before_format_cmd = 'echo -e "n\np\n1\n\n\nt\n8e\\nw\n"'
         before_format_arg = split(before_format_cmd)
         after_format_cmd = "fdisk /dev/%s" %self.drive
@@ -53,14 +66,16 @@ class addDrive(object):
         rs = call(["xfs_growfs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
     def main():
         x = addDrive(opts.drive, opts.vgfolder, opts.lvfolder)
-        x.fdisk()
-        x.partprobe()
-        x.pvcreate()
-        time.sleep(5)
-        x.extend_vg()
-        x.extend_lv()
-        x.resizefs()
+            x.check_disk()
+            x.fdisk()
+            x.partprobe()
+            x.pvcreate()
+            time.sleep(5)
+            x.extend_vg()
+            x.extend_lv()
+            x.resizefs()
 if __name__ == "__main__":
 
        print "Usage: python 1_fdisk.py -d sdb -v cl -l root, which means -d : disk, -v : volume, -l : logical volume"
+
        main()

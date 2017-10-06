@@ -34,9 +34,8 @@ class addDrive(object):
         else:
             flags = True
             print "Starting jobs"
-    def fdisk(self): 
-
-	    before_format_cmd = 'echo -e "n\np\n1\n\n\nt\n8e\\nw\n"'
+    def fdisk(self):
+        before_format_cmd = 'echo -e "n\np\n1\n\n\nt\n8e\\nw\n"'
         before_format_arg = split(before_format_cmd)
         after_format_cmd = "fdisk /dev/%s" %self.drive
         after_format_arg = split(after_format_cmd)

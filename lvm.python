@@ -29,7 +29,8 @@ class addDrive(object):
         cmd = "cat /proc/partitions | awk '{print $4}'"
         ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output= ps.communicate()[0].split(", \n")
-        if self.drive in str(output):
+        drives = self.drive+"1"
+        if drives in str(output):
             print "Disk has been added to lvm, please double check disk partitions table %s" % output
             exit(-1)
             flags = True

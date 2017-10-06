@@ -74,6 +74,5 @@ class addDrive(object):
         x.resizefs()
 if __name__ == "__main__":
 
-       print "Usage: python 1_fdisk.py -d sdb -v cl -l root, which means -d : disk, -v : volume, -l : logical volume"
-
-       main()
+print "Usage: python 1_fdisk.py -d sdb -v cl -l root, which means -d : disk, -v : volume, -l : logical volume"
+main()

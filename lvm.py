@@ -27,15 +27,12 @@ class addDrive(object):
         d1 = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = d1.communicate()[0].split(", \n")
         drives = self.drive+"1"
-        if self.vgfolder == None:
-            print self.vgfolder
-            print self.lvfolder
-            exit(-1)
-        elif drives in str(output):
+        if drives in str(output):
             print "Disk already added to lvm group, please double check disk partitions table %s" % output
             exit(-1)
         else:
-            print "Unknown error"
+            print "check syntax"
+            exit(-1)
     def fdisk(self):
             before_format_cmd = split('echo -e "n\np\n1\n\n\nt\n8e\\nw\n"')
             after_format_cmd = split("fdisk /dev/%s" %self.drive)

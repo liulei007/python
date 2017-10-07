@@ -27,7 +27,9 @@ class addDrive(object):
         d1 = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = d1.communicate()[0].split(", \n")
         drives = self.drive+"1"
-        if self.vgfolder == None or self.lvfolder == None:
+        if self.vgfolder == None:
+            print self.vgfolder
+            print self.lvfolder
             exit(-1)
         elif drives in str(output):
             print "Disk already added to lvm group, please double check disk partitions table %s" % output

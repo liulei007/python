@@ -94,6 +94,6 @@ def main():
                 x1.extend_lv()
                 x1.resizefs()
 if __name__ == "__main__":
-    Usage = "Usage: python lvm.python -d sdb -v VolGroup -l lv_root "
+    Usage = "Please use lvdisplay to find out lv path with vg and lv for which folders you need working on! \nUsage: python lvm.python -d sdb -v VolGroup -l lv_root "
     print '\033[1;31m %s "variables:  -d : disk, -v :volume, -l : logical volume"\033[1;m' %Usage
     main()

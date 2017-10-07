@@ -30,7 +30,7 @@ class addDrive(object):
         ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=devnull)
         output= ps.communicate()[0].split(", \n")
         drives = self.drive+"1"
-        disk_null = call(["fdisk", "/dev/sd%s" % self.drive], stderr=subprocess.PIPE)
+        disk_null = call(["fdisk", "/dev/%s" % self.drive], stderr=subprocess.PIPE)
         if drives in str(output):
             print "Disk has been added to lvm, please double check disk partitions table %s" % output
             exit(-1)

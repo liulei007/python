@@ -27,16 +27,11 @@ class addDrive(object):
     def check_disk(self):
         flags=False
         cmd = "cat /proc/partitions | awk '{print $4}'"
-        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=devnull)
+        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output= ps.communicate()[0].split(", \n")
         drives = self.drive+"1"
-        disk_null = call(["fdisk", "/dev/%s" % self.drive], stderr=subprocess.PIPE)
         if drives in str(output):
             print "Disk has been added to lvm, please double check disk partitions table %s" % output
-            exit(-1)
-            flags = True
-        elif disk_null != 0:
-            print "No such disk %s"  % drives
             exit(-1)
             flags = True
         else:
@@ -52,6 +47,7 @@ class addDrive(object):
         #p2 = call(after_format_arg, stdin=p1.stdout)
         if p2 != 0:
             print 'disk not valid /dev/%s' %self.drive
+            exit(-1)
         else:
             print 'formated disk /dev/%s' %self.drive
 

@@ -27,11 +27,16 @@ class addDrive(object):
     def check_disk(self):
         flags=False
         cmd = "cat /proc/partitions | awk '{print $4}'"
-        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=devnull)
         output= ps.communicate()[0].split(", \n")
         drives = self.drive+"1"
+        disk_null = call(["fdisk", "/dev/sd%s" % self.drive], stderr=subprocess.PIPE)
         if drives in str(output):
             print "Disk has been added to lvm, please double check disk partitions table %s" % output
+            exit(-1)
+            flags = True
+        elif disk_null != 0:
+            print "No such disk %s"  % drives
             exit(-1)
             flags = True
         else:
@@ -77,7 +82,7 @@ def main():
         x.extend_lv()
         x.resizefs()
 if __name__ == "__main__":
-    print "Usage: python 1_fdisk.py -d sdb -v cl -l root, which means -d : disk, -v : volume, -l : logical volume"
+    print "Usage: python lvm.python -d sdb -v cl -l root, which means -d : disk, -v : volume, -l : logical volume"
 
     if opts.drive == None:
         #parser.print_help()

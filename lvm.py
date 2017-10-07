@@ -66,6 +66,7 @@ def main():
         x1 = addDrive(opts.drive, opts.vgfolder, opts.lvfolder)
         if x1.__sizeof__ < 2:
             print "Usage: python lvm.python -d sdb -v cl -l root"
+            exit(-1)
         else:
             x1.check_disk()
             x1.fdisk()

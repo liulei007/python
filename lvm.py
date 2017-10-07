@@ -64,7 +64,7 @@ class addDrive(object):
         rs = call(["xfs_growfs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
 def main():
         x1 = addDrive(opts.drive, opts.vgfolder, opts.lvfolder)
-        if x1.__sizeof__ < 2:
+        if x1.__sizeof__() < 2:
             print "Usage: python lvm.python -d sdb -v cl -l root"
             exit(-1)
         else:

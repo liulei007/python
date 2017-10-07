@@ -31,17 +31,20 @@ class addDrive(object):
             print "Disk already added to lvm group, please double check disk partitions table %s" % output
             exit(-1)
     def fdisk(self):
-        before_format_cmd = split('echo -e "n\np\n1\n\n\nt\n8e\\nw\n"')
-        #before_format_arg = split(before_format_cmd)
-        after_format_cmd = split("fdisk /dev/%s" %self.drive)
-        #after_format_arg = split(after_format_cmd)
-        p1 = Popen(before_format_cmd, stdout=PIPE)
-        p2 = call(after_format_cmd, stdin=p1.stdout, stderr=devnull)
-        if p2 != 0:
-            print 'disk not valid /dev/%s' %self.drive
+        if basename(normpath(self.vgfolder)) is None and basename(normpath(self.lvfolder)) is None:
             exit(-1)
         else:
-            print 'partitioning disk /dev/%s' %self.drive
+            before_format_cmd = split('echo -e "n\np\n1\n\n\nt\n8e\\nw\n"')
+        #before_format_arg = split(before_format_cmd)
+            after_format_cmd = split("fdisk /dev/%s" %self.drive)
+        #after_format_arg = split(after_format_cmd)
+            p1 = Popen(before_format_cmd, stdout=PIPE)
+            p2 = call(after_format_cmd, stdin=p1.stdout, stderr=devnull)
+            if p2 != 0:
+                print 'disk not valid /dev/%s' %self.drive
+                exit(-1)
+            else:
+                print 'partitioning disk /dev/%s' %self.drive
 
     def partprobe(self):
         pprobe = "partprobe"

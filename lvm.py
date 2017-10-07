@@ -50,12 +50,18 @@ class addDrive(object):
     def pvcreate(self):
         pvcreate = call(["pvcreate", "/dev/%s1" % self.drive],stderr=devnull)
     def extend_vg(self):
-        vgextend = 'vgextend %s /dev/%s1' % (basename(normpath(self.vgfolder)),self.drive)
-        status,output = getstatusoutput(vgextend)
-        print "This is for vg"
-        print status,output
+        if basename(normpath(self.vgfolder)) is None:
+            exit(-1)
+        else:
+            vgextend = 'vgextend %s /dev/%s1' % (basename(normpath(self.vgfolder)),self.drive)
+            status,output = getstatusoutput(vgextend)
+            print "This is for vg"
+            print status,output
     def extend_lv(self):
-        lvextend = call(["lvextend", "-l", "+100%FREE", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
+        if basename(normpath(self.lvfolder)) is None:
+            exit(-1)
+        else:
+            lvextend = call(["lvextend", "-l", "+100%FREE", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
     def resizefs(self):
         rs = call(["xfs_growfs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
 def main():
@@ -71,7 +77,5 @@ def main():
 if __name__ == "__main__":
     Usage = "Usage: python lvm.python -d sdb -v cl -l root"
     print "%s which means -d : disk, -v : volume, -l : logical volume" %Usage
-    if opts.drive == None and opts.vgfolder == None and opts.lvfolder == None:
-        print Usage
-        exit(-1)
+
     main()

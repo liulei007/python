@@ -24,24 +24,24 @@ class addDrive(object):
 
     def check_disk(self):
         cmd = "cat /proc/partitions | awk '{print $4}'"
-        ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output = ps.communicate()[0].split(", \n")
+        d1 = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output = d1.communicate()[0].split(", \n")
         drives = self.drive+"1"
         if drives in str(output):
-            print "Disk has been added to lvm, please double check disk partitions table %s" % output
+            print "Disk already added to lvm group, please double check disk partitions table %s" % output
             exit(-1)
     def fdisk(self):
-        before_format_cmd = 'echo -e "n\np\n1\n\n\nt\n8e\\nw\n"'
-        before_format_arg = split(before_format_cmd)
-        after_format_cmd = "fdisk /dev/%s" %self.drive
-        after_format_arg = split(after_format_cmd)
-        p1 = Popen(before_format_arg, stdout=PIPE)
-        p2 = call(after_format_arg, stdin=p1.stdout, stderr=devnull)
+        before_format_cmd = split('echo -e "n\np\n1\n\n\nt\n8e\\nw\n"')
+        #before_format_arg = split(before_format_cmd)
+        after_format_cmd = split("fdisk /dev/%s" %self.drive)
+        #after_format_arg = split(after_format_cmd)
+        p1 = Popen(before_format_cmd, stdout=PIPE)
+        p2 = call(after_format_cmd, stdin=p1.stdout, stderr=devnull)
         if p2 != 0:
             print 'disk not valid /dev/%s' %self.drive
             exit(-1)
         else:
-            print 'formated disk /dev/%s' %self.drive
+            print 'partitioning disk /dev/%s' %self.drive
 
     def partprobe(self):
         pprobe = "partprobe"

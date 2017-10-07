@@ -69,5 +69,9 @@ def main():
         x1.extend_lv()
         x1.resizefs()
 if __name__ == "__main__":
-    print "Usage: python lvm.python -d sdb -v cl -l root, which means -d : disk, -v : volume, -l : logical volume"
+    Usage = "Usage: python lvm.python -d sdb -v cl -l root"
+    print "%s which means -d : disk, -v : volume, -l : logical volume" %Usage
+    if opts.drive == None and opts.vgfolder == None and opts.lvfolder == None:
+        print Usage
+        exit(-1)
     main()

@@ -30,9 +30,6 @@ class addDrive(object):
         if drives in str(output):
             print "Disk already added to lvm group, please double check disk partitions table %s" % output
             exit(-1)
-        else:
-            print "check syntax"
-            exit(-1)
     def fdisk(self):
             before_format_cmd = split('echo -e "n\np\n1\n\n\nt\n8e\\nw\n"')
             after_format_cmd = split("fdisk /dev/%s" %self.drive)
@@ -67,14 +64,17 @@ class addDrive(object):
         rs = call(["xfs_growfs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
 def main():
         x1 = addDrive(opts.drive, opts.vgfolder, opts.lvfolder)
-        x1.check_disk()
-        x1.fdisk()
-        x1.partprobe()
-        x1.pvcreate()
-        time.sleep(5)
-        x1.extend_vg()
-        x1.extend_lv()
-        x1.resizefs()
+        if x1.__sizeof__ < 2:
+            print "Usage: python lvm.python -d sdb -v cl -l root"
+        else:
+            x1.check_disk()
+            x1.fdisk()
+            x1.partprobe()
+            x1.pvcreate()
+            time.sleep(5)
+            x1.extend_vg()
+            x1.extend_lv()
+            x1.resizefs()
 if __name__ == "__main__":
     Usage = "Usage: python lvm.python -d sdb -v cl -l root"
     print "%s which means -d : disk, -v : volume, -l : logical volume" %Usage

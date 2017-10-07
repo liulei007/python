@@ -66,7 +66,6 @@ class addDrive(object):
     def extend_lv(self):
         lvextend = call(["lvextend", "-l", "+100%FREE", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
     def resizefs(self):
-            #rs = 'xfs_growfs /dev/%s/%s' % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))
         rs = call(["xfs_growfs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
 def main():
         x = addDrive(opts.drive, opts.vgfolder, opts.lvfolder)
@@ -80,9 +79,4 @@ def main():
         x.resizefs()
 if __name__ == "__main__":
     print "Usage: python lvm.python -d sdb -v cl -l root, which means -d : disk, -v : volume, -l : logical volume"
-    #usage_syntax = "python lvm.python -d %s -v %s -l %" % opts.drive, opts.vgfolder, opts.lvfolder
-
-    #if opts.drive == None:
-        #parser.print_help()
-        #exit(-1)
 main()

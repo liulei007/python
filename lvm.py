@@ -17,6 +17,7 @@ parser.add_option('-l', '--lvfolder', dest='lvfolder')
 (opts, args) = parser.parse_args()
 
 class addDrive(object):
+
     def __init__(self, drive, vgfolder, lvfolder):
         self.drive = str(drive)
         self.vgfolder = str(vgfolder)
@@ -27,9 +28,17 @@ class addDrive(object):
         d1 = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = d1.communicate()[0].split(", \n")
         drives = self.drive+"1"
+	vg1 = self.vgfolder
+	lv1 = self.lvfolder
         if drives in str(output):
             print "Disk already added to lvm group, please double check disk partitions table %s" % output
             exit(-1)
+        #elif vg1 is None and lv1 is None:
+	 #   print vg1
+         #   print lv1
+	 #   exit(-1)
+	else:
+	    print "Normal"
     def fdisk(self):
             before_format_cmd = split('echo -e "n\np\n1\n\n\nt\n8e\\nw\n"')
             after_format_cmd = split("fdisk /dev/%s" %self.drive)
@@ -63,11 +72,11 @@ class addDrive(object):
     def resizefs(self):
         rs = call(["xfs_growfs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
 def main():
-        x1 = addDrive(opts.drive, opts.vgfolder, opts.lvfolder)
-        if x1.__sizeof__() < 2:
-            print "Usage: python lvm.python -d sdb -v cl -l root"
-            exit(-1)
-        else:
+            x1 = addDrive(opts.drive, opts.vgfolder, opts.lvfolder)
+        #if len(args) < 1:
+         #   print "Usage: python lvm.python -d sdb -v cl -l root, argument length too little"
+          #  exit(-1)
+       # else:
             x1.check_disk()
             x1.fdisk()
             x1.partprobe()
@@ -78,6 +87,9 @@ def main():
             x1.resizefs()
 if __name__ == "__main__":
     Usage = "Usage: python lvm.python -d sdb -v cl -l root"
+    if len(args) < 6:
+    	#parser.error("Please check the %s" %Usage)
+    	print opts
+    	print args
     print "%s which means -d : disk, -v : volume, -l : logical volume" %Usage
-
     main()

@@ -68,7 +68,8 @@ class addDrive(object):
 	   rs = call(["xfs_growfs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
 	elif diskfs == "ext4":
 	   print "This is ext4"
-	   rs = call(["resize2fs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
+	   #rs = call(["resize2fs", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
+	   rs = call(["mkfs.ext4", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
 	elif diskfs == "ext3":
 	   print "This is ext3"
 	   rs = call(["mkfs.ext3", "/dev/%s/%s" % (basename(normpath(self.vgfolder)),basename(normpath(self.lvfolder)))])
